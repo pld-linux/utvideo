@@ -26,7 +26,7 @@ Summary:	Header files for Ut Video library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ut Video
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	libstd++-devel
+Requires:	libstdc++-devel
 
 %description devel
 Header files for Ut Video library.
