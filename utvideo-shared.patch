@@ -1,0 +1,89 @@
+--- utvideo-10.2.0/GNUmakefile.orig	2011-11-08 03:18:38.000000000 +0100
++++ utvideo-10.2.0/GNUmakefile	2011-12-17 08:16:07.565492678 +0100
+@@ -9,8 +9,9 @@
+ DESTDIR=
+ 
+ prefix=/usr/local
+-libdir=$(DESTDIR)$(prefix)/lib
+-includedir=$(DESTDIR)$(prefix)/include
++libdir=$(prefix)/lib
++includedir=$(prefix)/include
++LIBTOOL=libtool
+ 
+ CROSS_PREFIX=
+ CXX=$(CROSS_PREFIX)g++
+@@ -19,7 +20,8 @@
+ 
+ UTV_CORE_DIR=utv_core
+ 
+-CXXFLAGS=-g -O2 -Wall -Wextra -Wno-multichar -Wno-unused-parameter -Wno-sign-compare
++OPTFLAGS=-g -O2
++CXXFLAGS=$(OPTFLAGS) -Wall -Wextra -Wno-multichar -Wno-unused-parameter -Wno-sign-compare
+ 
+ # on MinGW env, uncomment following lines and set proper value to WINSDK_ROOT.
+ #WINSDK_ROOT="/c/Program Files/Microsoft SDKs/Windows/v6.1"
+@@ -48,15 +50,23 @@
+       $(UTV_CORE_DIR)/ULY2Codec.o \
+       $(UTV_CORE_DIR)/utv_core.o
+ 
++LTOBJ=$(OBJ:.o=.lo)
++
+ %.a:
+ 	$(AR) rcu $@ $^
+ 	$(RANLIB) $@
+ 
+-all: static-lib
++%.la:
++	$(LIBTOOL) --mode=link $(CXX) -o $@ $^ -rpath $(libdir) -lpthread
++
++%.lo: %.cpp
++	$(LIBTOOL) --mode=compile $(CXX) $(CXXFLAGS) -c -o $@ $<
++
++all: lib
+ 
+-$(UTV_CORE_DIR)/libutvideo.a: $(OBJ)
++$(UTV_CORE_DIR)/libutvideo.la: $(LTOBJ)
+ 
+-static-lib: $(UTV_CORE_DIR)/libutvideo.a
++lib: $(UTV_CORE_DIR)/libutvideo.la
+ 
+ clean:
+ 	@printf " RM\t$(UTV_CORE_DIR)/*.o\n";
+@@ -65,25 +75,25 @@
+ 	@rm -f $(UTV_CORE_DIR)/libutvideo.a
+ 
+ install: all
+-	@mkdir -p $(libdir) # in case of custom install dir
++	@mkdir -p $(DESTDIR)$(libdir) # in case of custom install dir
+ 	@printf " MKDIR\t\t$(includedir)/utvideo\n";
+-	@mkdir -p $(includedir)/utvideo
++	@mkdir -p $(DESTDIR)$(includedir)/utvideo
+ 	@printf " INSTALL\t$(includedir)/utvideo/Codec.h\n";
+-	@cp -f $(UTV_CORE_DIR)/Codec.h $(includedir)/utvideo/Codec.h
++	@cp -f $(UTV_CORE_DIR)/Codec.h $(DESTDIR)$(includedir)/utvideo/Codec.h
+ 	@printf " INSTALL\t$(includedir)/utvideo/utvideo.h\n";
+-	@cp -f $(UTV_CORE_DIR)/utvideo.h $(includedir)/utvideo/utvideo.h
+-	@printf " INSTALL\t$(libdir)/libutvideo.a\n";
+-	@cp -f $(UTV_CORE_DIR)/libutvideo.a $(libdir)/libutvideo.a
++	@cp -f $(UTV_CORE_DIR)/utvideo.h $(DESTDIR)$(includedir)/utvideo/utvideo.h
++	@printf " INSTALL\t$(libdir)/libutvideo.la\n";
++	@libtool --mode=install install $(UTV_CORE_DIR)/libutvideo.la $(DESTDIR)$(libdir)
+ 
+ uninstall:
+ 	@printf " RM\t$(includedir)/utvideo/*.h\n";
+-	@rm -f $(includedir)/utvideo/*.h
++	@rm -f $(DESTDIR)$(includedir)/utvideo/*.h
+ 	@printf " RMDIR\t$(includedir)/utvideo\n";
+-	@-rmdir $(includedir)/utvideo 2> /dev/null || \
+-	  if [ -d $(includedir)/utvideo ]; then \
+-	    printf " NOTE: Not removing $(includedir)/utvideo since it is not empty.\n"; \
++	@-rmdir $(DESTDIR)$(includedir)/utvideo 2> /dev/null || \
++	  if [ -d $(DESTDIR)$(includedir)/utvideo ]; then \
++	    printf " NOTE: Not removing $(DESTDIR)$(includedir)/utvideo since it is not empty.\n"; \
+ 	  fi
+ 	@printf " RM\t$(libdir)/libutvideo.a\n";
+-	@rm -f $(libdir)/libutvideo.a
++	@rm -f $(DESTDIR)$(libdir)/libutvideo.a
+ 
+-.PHONY: all static-lib clean install uninstall
++.PHONY: all lib static-lib clean install uninstall
