@@ -22,7 +22,7 @@
  
  # on MinGW env, uncomment following lines and set proper value to WINSDK_ROOT.
  #WINSDK_ROOT="/c/Program Files/Microsoft SDKs/Windows/v6.1"
-@@ -48,15 +50,23 @@
+@@ -48,15 +50,26 @@
        $(UTV_CORE_DIR)/ULY2Codec.o \
        $(UTV_CORE_DIR)/utv_core.o
  
@@ -37,7 +37,10 @@
 +	$(LIBTOOL) --mode=link $(CXX) -o $@ $^ -rpath $(libdir) -lpthread
 +
 +%.lo: %.cpp
-+	$(LIBTOOL) --mode=compile $(CXX) $(CXXFLAGS) -c -o $@ $<
++	$(LIBTOOL) --tag=CXX --mode=compile $(CXX) $(CXXFLAGS) -c -o $@ $<
++
++%.lo: %.asm
++	$(LIBTOOL) --tag=NASM --mode=compile nasm -felf -I$(UTV_CORE_DIR)/ -o $@ $<
 +
 +all: lib
  
@@ -49,7 +52,7 @@
  
  clean:
  	@printf " RM\t$(UTV_CORE_DIR)/*.o\n";
-@@ -65,25 +75,25 @@
+@@ -65,25 +78,25 @@
  	@rm -f $(UTV_CORE_DIR)/libutvideo.a
  
  install: all

@@ -1,16 +1,20 @@
 Summary:	Ut Video codec suite
 Summary(pl.UTF-8):	Kodek Ut Video
 Name:		utvideo
-Version:	11.1.1
+Version:	12.0.1
 Release:	1
 License:	GPL v2+
 Group:		Libraries
 Source0:	http://umezawa.dyndns.info/archive/utvideo/%{name}-%{version}-src.zip
-# Source0-md5:	9e5a1d3e1e711790f614920541918ebc
-Patch0:		%{name}-shared.patch
+# Source0-md5:	b5ac67032376f911574e0a32ac10cdcf
+Patch0:		%{name}-update.patch
+Patch1:		%{name}-shared.patch
 URL:		http://umezawa.dyndns.info/wordpress/?cat=28
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool >= 2:1.5
+#%ifarch i586 i686 pentium2 pentium3 pentium4
+#BuildRequires:	nasm
+#%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -49,6 +53,7 @@ Statyczna biblioteka Ut Video.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__make} \
@@ -56,6 +61,10 @@ Statyczna biblioteka Ut Video.
 	OPTFLAGS="%{rpmcxxflags} %{rpmcppflags}" \
 	V=1 \
 	libdir=%{_libdir}
+# TunedFunc_x86.cpp compilation fails
+#%ifarch i586 i686 pentium2 pentium3 pentium4
+#	ARCH=i386 \
+#%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
