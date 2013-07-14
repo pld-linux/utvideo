@@ -34,7 +34,6 @@ endif
 OBJ = $(UTV_CORE_DIR)/Codec.o \
       $(UTV_CORE_DIR)/Convert.o \
       $(UTV_CORE_DIR)/DummyCodec.o \
-      $(UTV_CORE_DIR)/Format.o \
       $(UTV_CORE_DIR)/FrameBuffer.o \
       $(UTV_CORE_DIR)/GlobalConfig.o \
       $(UTV_CORE_DIR)/HuffmanCode.o \
@@ -47,6 +46,20 @@ OBJ = $(UTV_CORE_DIR)/Codec.o \
       $(UTV_CORE_DIR)/ULY0Codec.o \
       $(UTV_CORE_DIR)/ULY2Codec.o \
       $(UTV_CORE_DIR)/utv_core.o
+
+ifeq ($(ARCH),i386)
+OBJ+=$(UTV_CORE_DIR)/TunedFunc_x86.o \
+	$(UTV_CORE_DIR)/Convert_asm_x86.o \
+	$(UTV_CORE_DIR)/HuffmanCode_asm_x86.o \
+	$(UTV_CORE_DIR)/Predict_asm_x86.o
+endif
+# note: TunedFunc_x64.cpp supports only MSC
+#ifeq ($(ARCH),x86_64)
+#OBJ+=$(UTV_CORE_DIR)/TunedFunc_x64.o \
+#	$(UTV_CORE_DIR)/Convert_asm_x64.o \
+#	$(UTV_CORE_DIR)/HuffmanCode_asm_x64.o \
+#	$(UTV_CORE_DIR)/Predict_asm_x64.o
+#endif
 
 %.a:
 	$(AR) rcu $@ $^
