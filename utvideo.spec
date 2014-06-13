@@ -1,12 +1,12 @@
 Summary:	Ut Video codec suite
 Summary(pl.UTF-8):	Kodek Ut Video
 Name:		utvideo
-Version:	13.3.1
+Version:	14.2.0
 Release:	1
 License:	GPL v2+
 Group:		Libraries
 Source0:	http://umezawa.dyndns.info/archive/utvideo/%{name}-%{version}-src.zip
-# Source0-md5:	405ad6920393cb7c167f872b4697f08f
+# Source0-md5:	6b0194edcdb32a999f5545d7b638ddd5
 Source1:	%{name}-makefile
 Patch0:		%{name}-shared.patch
 Patch1:		%{name}-includes.patch
