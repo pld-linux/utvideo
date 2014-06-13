@@ -1,5 +1,5 @@
---- utvideo-10.2.0/GNUmakefile.orig	2011-11-08 03:18:38.000000000 +0100
-+++ utvideo-10.2.0/GNUmakefile	2011-12-17 08:16:07.565492678 +0100
+--- utvideo-14.2.0/GNUmakefile.orig	2014-06-13 18:59:11.213265600 +0200
++++ utvideo-14.2.0/GNUmakefile	2014-06-13 19:12:23.606582418 +0200
 @@ -9,8 +9,9 @@
  DESTDIR=
  
@@ -22,9 +22,9 @@
  
  # on MinGW env, uncomment following lines and set proper value to WINSDK_ROOT.
  #WINSDK_ROOT="/c/Program Files/Microsoft SDKs/Windows/v6.1"
-@@ -48,15 +50,26 @@
-       $(UTV_CORE_DIR)/ULY2Codec.o \
-       $(UTV_CORE_DIR)/utv_core.o
+@@ -65,15 +67,26 @@
+ #	$(UTV_CORE_DIR)/Predict_asm_x64.o
+ #endif
  
 +LTOBJ=$(OBJ:.o=.lo)
 +
@@ -52,7 +52,7 @@
  
  clean:
  	@printf " RM\t$(UTV_CORE_DIR)/*.o\n";
-@@ -65,25 +78,25 @@
+@@ -82,27 +95,27 @@
  	@rm -f $(UTV_CORE_DIR)/libutvideo.a
  
  install: all
@@ -66,9 +66,12 @@
 +	@cp -f $(UTV_CORE_DIR)/Codec.h $(DESTDIR)$(includedir)/utvideo/Codec.h
  	@printf " INSTALL\t$(includedir)/utvideo/utvideo.h\n";
 -	@cp -f $(UTV_CORE_DIR)/utvideo.h $(includedir)/utvideo/utvideo.h
++	@cp -f $(UTV_CORE_DIR)/utvideo.h $(DESTDIR)$(includedir)/utvideo/utvideo.h
+ 	@printf " INSTALL\t$(includedir)/utvideo/version.h\n";
+-	@cp -f $(UTV_CORE_DIR)/version.h $(includedir)/utvideo/version.h
 -	@printf " INSTALL\t$(libdir)/libutvideo.a\n";
 -	@cp -f $(UTV_CORE_DIR)/libutvideo.a $(libdir)/libutvideo.a
-+	@cp -f $(UTV_CORE_DIR)/utvideo.h $(DESTDIR)$(includedir)/utvideo/utvideo.h
++	@cp -f $(UTV_CORE_DIR)/version.h $(DESTDIR)$(includedir)/utvideo/version.h
 +	@printf " INSTALL\t$(libdir)/libutvideo.la\n";
 +	@libtool --mode=install install $(UTV_CORE_DIR)/libutvideo.la $(DESTDIR)$(libdir)
  
@@ -79,14 +82,13 @@
  	@printf " RMDIR\t$(includedir)/utvideo\n";
 -	@-rmdir $(includedir)/utvideo 2> /dev/null || \
 -	  if [ -d $(includedir)/utvideo ]; then \
--	    printf " NOTE: Not removing $(includedir)/utvideo since it is not empty.\n"; \
 +	@-rmdir $(DESTDIR)$(includedir)/utvideo 2> /dev/null || \
 +	  if [ -d $(DESTDIR)$(includedir)/utvideo ]; then \
-+	    printf " NOTE: Not removing $(DESTDIR)$(includedir)/utvideo since it is not empty.\n"; \
+ 	    printf " NOTE: Not removing $(includedir)/utvideo since it is not empty.\n"; \
  	  fi
  	@printf " RM\t$(libdir)/libutvideo.a\n";
 -	@rm -f $(libdir)/libutvideo.a
-+	@rm -f $(DESTDIR)$(libdir)/libutvideo.a
++	@rm -f $(DESTDIR)$(libdir)/libutvideo.la
  
 -.PHONY: all static-lib clean install uninstall
 +.PHONY: all lib static-lib clean install uninstall

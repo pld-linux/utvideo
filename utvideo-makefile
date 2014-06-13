@@ -89,6 +89,8 @@ install: all
 	@cp -f $(UTV_CORE_DIR)/Codec.h $(includedir)/utvideo/Codec.h
 	@printf " INSTALL\t$(includedir)/utvideo/utvideo.h\n";
 	@cp -f $(UTV_CORE_DIR)/utvideo.h $(includedir)/utvideo/utvideo.h
+	@printf " INSTALL\t$(includedir)/utvideo/version.h\n";
+	@cp -f $(UTV_CORE_DIR)/version.h $(includedir)/utvideo/version.h
 	@printf " INSTALL\t$(libdir)/libutvideo.a\n";
 	@cp -f $(UTV_CORE_DIR)/libutvideo.a $(libdir)/libutvideo.a
 
