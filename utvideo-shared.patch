@@ -18,7 +18,7 @@
  
 -CXXFLAGS=-g -O2 -Wall -Wextra -Wno-multichar -Wno-unused-parameter -Wno-sign-compare
 +OPTFLAGS=-g -O2
-+CXXFLAGS=$(OPTFLAGS) -Wall -Wextra -Wno-multichar -Wno-unused-parameter -Wno-sign-compare
++CXXFLAGS=$(OPTFLAGS) -Wall -Wextra -Wno-multichar -Wno-unused-parameter -Wno-sign-compare -Iinclude -Iutv_logl
  
  # on MinGW env, uncomment following lines and set proper value to WINSDK_ROOT.
  #WINSDK_ROOT="/c/Program Files/Microsoft SDKs/Windows/v6.1"

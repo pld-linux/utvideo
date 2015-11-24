@@ -18,6 +18,7 @@ AR=$(CROSS_PREFIX)ar
 RANLIB=$(CROSS_PREFIX)ranlib
 
 UTV_CORE_DIR=utv_core
+UTV_LOGL_DIR=utv_logl
 
 CXXFLAGS=-g -O2 -Wall -Wextra -Wno-multichar -Wno-unused-parameter -Wno-sign-compare
 
@@ -33,12 +34,12 @@ endif
 
 OBJ = $(UTV_CORE_DIR)/Codec.o \
       $(UTV_CORE_DIR)/CodecBase.o \
-      $(UTV_CORE_DIR)/Coefficient.o \
       $(UTV_CORE_DIR)/Convert.o \
       $(UTV_CORE_DIR)/DummyCodec.o \
       $(UTV_CORE_DIR)/FrameBuffer.o \
       $(UTV_CORE_DIR)/GlobalConfig.o \
       $(UTV_CORE_DIR)/HuffmanCode.o \
+      $(UTV_CORE_DIR)/Log.o \
       $(UTV_CORE_DIR)/Predict.o \
       $(UTV_CORE_DIR)/Thread.o \
       $(UTV_CORE_DIR)/TunedFunc.o \
@@ -49,7 +50,11 @@ OBJ = $(UTV_CORE_DIR)/Codec.o \
       $(UTV_CORE_DIR)/ULYUV422Codec.o \
       $(UTV_CORE_DIR)/UQ00Codec.o \
       $(UTV_CORE_DIR)/UQY2Codec.o \
-      $(UTV_CORE_DIR)/utv_core.o
+      $(UTV_CORE_DIR)/utv_core.o \
+      $(UTV_LOGL_DIR)/LogPath.o \
+      $(UTV_LOGL_DIR)/LogReader.o \
+      $(UTV_LOGL_DIR)/LogUtil.o \
+      $(UTV_LOGL_DIR)/LogWriter.o
 
 ifeq ($(ARCH),i386)
 OBJ+=$(UTV_CORE_DIR)/TunedFunc_x86.o \
