@@ -48,7 +48,10 @@ OBJ = $(UTV_CORE_DIR)/Codec.o \
       $(UTV_CORE_DIR)/ULRGCodec.o \
       $(UTV_CORE_DIR)/ULYUV420Codec.o \
       $(UTV_CORE_DIR)/ULYUV422Codec.o \
+      $(UTV_CORE_DIR)/ULYUV444Codec.o \
       $(UTV_CORE_DIR)/UQ00Codec.o \
+      $(UTV_CORE_DIR)/UQRACodec.o \
+      $(UTV_CORE_DIR)/UQRGCodec.o \
       $(UTV_CORE_DIR)/UQY2Codec.o \
       $(UTV_CORE_DIR)/utv_core.o \
       $(UTV_LOGL_DIR)/LogPath.o \
@@ -57,18 +60,21 @@ OBJ = $(UTV_CORE_DIR)/Codec.o \
       $(UTV_LOGL_DIR)/LogWriter.o
 
 ifeq ($(ARCH),i386)
-OBJ+=$(UTV_CORE_DIR)/TunedFunc_x86.o \
-	$(UTV_CORE_DIR)/Convert_asm_x86.o \
-	$(UTV_CORE_DIR)/HuffmanCode_asm_x86.o \
-	$(UTV_CORE_DIR)/Predict_asm_x86.o
+OBJ += $(UTV_CORE_DIR)/TunedFunc_x86x64.o \
+	$(UTV_CORE_DIR)/TunedFunc_x86x64_avx1.o \
+	$(UTV_CORE_DIR)/TunedFunc_x86x64_sse2.o \
+	$(UTV_CORE_DIR)/TunedFunc_x86x64_sse41.o \
+	$(UTV_CORE_DIR)/TunedFunc_x86x64_ssse3.o \
+	$(UTV_CORE_DIR)/HuffmanCode_x86.o
 endif
-# note: TunedFunc_x64.cpp supports only MSC
-#ifeq ($(ARCH),x86_64)
-#OBJ+=$(UTV_CORE_DIR)/TunedFunc_x64.o \
-#	$(UTV_CORE_DIR)/Convert_asm_x64.o \
-#	$(UTV_CORE_DIR)/HuffmanCode_asm_x64.o \
-#	$(UTV_CORE_DIR)/Predict_asm_x64.o
-#endif
+ifeq ($(ARCH),x86_64)
+OBJ += $(UTV_CORE_DIR)/TunedFunc_x86x64.o \
+	$(UTV_CORE_DIR)/TunedFunc_x86x64_avx1.o \
+	$(UTV_CORE_DIR)/TunedFunc_x86x64_sse2.o \
+	$(UTV_CORE_DIR)/TunedFunc_x86x64_sse41.o \
+	$(UTV_CORE_DIR)/TunedFunc_x86x64_ssse3.o \
+	$(UTV_CORE_DIR)/HuffmanCode_x64.o
+endif
 
 %.a:
 	$(AR) rcu $@ $^
@@ -79,6 +85,11 @@ all: static-lib
 $(UTV_CORE_DIR)/libutvideo.a: $(OBJ)
 
 static-lib: $(UTV_CORE_DIR)/libutvideo.a
+
+$(UTV_CORE_DIR)/TunedFunc_x86x64_sse2.o $(UTV_CORE_DIR)/TunedFunc_x86x64_sse2.lo: CXXFLAGS += -msse2
+$(UTV_CORE_DIR)/TunedFunc_x86x64_ssse3.o $(UTV_CORE_DIR)/TunedFunc_x86x64_ssse3.lo: CXXFLAGS += -mssse3
+$(UTV_CORE_DIR)/TunedFunc_x86x64_sse41.o $(UTV_CORE_DIR)/TunedFunc_x86x64_sse41.lo: CXXFLAGS += -msse4.1
+$(UTV_CORE_DIR)/TunedFunc_x86x64_avx1.o $(UTV_CORE_DIR)/TunedFunc_x86x64_avx1.lo: CXXFLAGS += -mavx
 
 clean:
 	@printf " RM\t$(UTV_CORE_DIR)/*.o\n";

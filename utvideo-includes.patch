@@ -9,3 +9,23 @@
  class CBGRColorOrder
  {
  public:
+--- utvideo-18.2.1/utv_core/HuffmanCode_x86.cpp.orig	2017-07-16 08:59:00.000000000 +0200
++++ utvideo-18.2.1/utv_core/HuffmanCode_x86.cpp	2017-07-22 20:30:18.510812680 +0200
+@@ -1,6 +1,7 @@
+ /* •¶šƒR[ƒh‚Í‚r‚i‚h‚r ‰üsƒR[ƒh‚Í‚b‚q‚k‚e */
+ /* $Id$ */
+ 
++#include <cstddef>
+ #include <stdlib.h>
+ #include <stdint.h>
+ #include <type_traits>
+--- utvideo-18.2.1/utv_core/HuffmanCode_x64.cpp.orig	2017-07-16 08:59:00.000000000 +0200
++++ utvideo-18.2.1/utv_core/HuffmanCode_x64.cpp	2017-07-22 20:30:44.220812389 +0200
+@@ -1,6 +1,7 @@
+ /* •¶šƒR[ƒh‚Í‚r‚i‚h‚r ‰üsƒR[ƒh‚Í‚b‚q‚k‚e */
+ /* $Id$ */
+ 
++#include <cstddef>
+ #include <stdlib.h>
+ #include <stdint.h>
+ #include <type_traits>

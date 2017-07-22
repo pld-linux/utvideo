@@ -32,3 +32,43 @@
  	if (writeLog(buf, strlen(buf)) != strlen(buf))
  	{
  		close(fdLogSock);
+--- utvideo-18.2.1/utv_core/HuffmanCode_x86_HuffmanDecode.cpp.orig	2017-07-16 08:59:00.000000000 +0200
++++ utvideo-18.2.1/utv_core/HuffmanCode_x86_HuffmanDecode.cpp	2017-07-22 20:37:15.284141254 +0200
+@@ -125,6 +125,7 @@
+ .endm
+ 	HUFFMAN_DECODE_8 )" ARGS R"(
+ .purgem HUFFMAN_DECODE_8
++	.att_syntax
+ 	)"
+ 		: "=a"(ret), "=D"(clobber), "=S"(clobber), "=b"(clobber)
+ 		: "D"(pDstBegin), "a"(pDstEnd), "S"(pSrcBegin), "b"(pDecodeTable),
+--- utvideo-18.2.1/utv_core/HuffmanCode_x86_HuffmanEncode.cpp.orig	2017-07-16 08:59:00.000000000 +0200
++++ utvideo-18.2.1/utv_core/HuffmanCode_x86_HuffmanEncode.cpp	2017-07-22 20:37:28.217474441 +0200
+@@ -92,6 +92,7 @@
+ .endm
+ 	HUFFMAN_ENCODE )" ARGS R"(
+ .purgem HUFFMAN_ENCODE
++	.att_syntax
+ 	)"
+ 		: "=a"(ret), "=D"(clobber), "=S"(clobber), "=d"(clobber)
+ 		: "D"(pDstBegin), "S"(pSrcBegin), "a"(pSrcEnd), "d"(pEncodeTable)
+--- utvideo-18.2.1/utv_core/HuffmanCode_x64_HuffmanDecode.cpp.orig	2017-07-16 08:59:00.000000000 +0200
++++ utvideo-18.2.1/utv_core/HuffmanCode_x64_HuffmanDecode.cpp	2017-07-22 20:38:44.187473574 +0200
+@@ -139,6 +139,7 @@
+ .endm
+ 	HUFFMAN_DECODE_8 )" ARGS R"(
+ .purgem HUFFMAN_DECODE_8
++	.att_syntax
+ 	)"
+ 		: "=a"(ret), "=D"(clobber), "=S"(clobber), "=b"(clobber)
+ 		: "D"(pDstBegin), "a"(pDstEnd), "S"(pSrcBegin), "b"(pDecodeTable),
+--- utvideo-18.2.1/utv_core/HuffmanCode_x64_HuffmanEncode.cpp.orig	2017-07-16 08:59:00.000000000 +0200
++++ utvideo-18.2.1/utv_core/HuffmanCode_x64_HuffmanEncode.cpp	2017-07-22 20:38:58.624140074 +0200
+@@ -98,6 +98,7 @@
+ .endm
+ 	HUFFMAN_ENCODE )" ARGS R"(
+ .purgem HUFFMAN_ENCODE
++	.att_syntax
+ 	)"
+ 		: "=a"(ret), "=D"(clobber), "=S"(clobber), "=d"(clobber)
+ 		: "D"(pDstBegin), "S"(pSrcBegin), "a"(pSrcEnd), "d"(pEncodeTable)

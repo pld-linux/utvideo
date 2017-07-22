@@ -1,22 +1,19 @@
 Summary:	Ut Video codec suite
 Summary(pl.UTF-8):	Kodek Ut Video
 Name:		utvideo
-Version:	15.4.0
+Version:	18.2.1
 Release:	1
 License:	GPL v2+
 Group:		Libraries
 Source0:	http://umezawa.dyndns.info/archive/utvideo/%{name}-%{version}-src.zip
-# Source0-md5:	6789a56db91b27d220f5d1270939f399
+# Source0-md5:	1ede3a39a737b89557f251e42945e2dc
 Source1:	%{name}-makefile
 Patch0:		%{name}-shared.patch
 Patch1:		%{name}-includes.patch
 Patch2:		%{name}-linux.patch
 URL:		http://umezawa.dyndns.info/wordpress/?cat=28
-BuildRequires:	libstdc++-devel
+BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	libtool >= 2:1.5
-#%ifarch i586 i686 pentium2 pentium3 pentium4
-#BuildRequires:	nasm
-#%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -32,7 +29,7 @@ Summary:	Header files for Ut Video library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Ut Video
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	libstdc++-devel
+Requires:	libstdc++-devel >= 6:4.7
 
 %description devel
 Header files for Ut Video library.
@@ -63,14 +60,16 @@ cp %{SOURCE1} GNUmakefile
 
 %build
 %{__make} \
+%ifarch i586 i686 pentium2 pentium3 pentium4
+	ARCH=i386 \
+%endif
+%ifarch %{x8664}
+	ARCH=x86_86 \
+%endif
 	CXX="%{__cxx}" \
-	OPTFLAGS="%{rpmcxxflags} %{rpmcppflags}" \
+	OPTFLAGS="%{rpmcxxflags} %{rpmcppflags} -std=c++11" \
 	V=1 \
 	libdir=%{_libdir}
-# TunedFunc_x86.cpp compilation fails
-#%ifarch i586 i686 pentium2 pentium3 pentium4
-#	ARCH=i386 \
-#%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
