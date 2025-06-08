@@ -1,5 +1,5 @@
---- utvideo-14.2.0/GNUmakefile.orig	2014-06-13 18:59:11.213265600 +0200
-+++ utvideo-14.2.0/GNUmakefile	2014-06-13 19:12:23.606582418 +0200
+--- utvideo-23.2.0/GNUmakefile.orig	2025-06-08 17:34:12.431396091 +0200
++++ utvideo-23.2.0/GNUmakefile	2025-06-08 17:52:20.065503871 +0200
 @@ -9,8 +9,9 @@
  DESTDIR=
  
@@ -12,9 +12,9 @@
  
  CROSS_PREFIX=
  CXX=$(CROSS_PREFIX)g++
-@@ -19,7 +20,8 @@
- 
+@@ -20,7 +21,8 @@ RANLIB=$(CROSS_PREFIX)ranlib
  UTV_CORE_DIR=utv_core
+ UTV_LOGL_DIR=utv_logl
  
 -CXXFLAGS=-g -O2 -Wall -Wextra -Wno-multichar -Wno-unused-parameter -Wno-sign-compare
 +OPTFLAGS=-g -O2
@@ -22,9 +22,9 @@
  
  # on MinGW env, uncomment following lines and set proper value to WINSDK_ROOT.
  #WINSDK_ROOT="/c/Program Files/Microsoft SDKs/Windows/v6.1"
-@@ -65,15 +67,26 @@
- #	$(UTV_CORE_DIR)/Predict_asm_x64.o
- #endif
+@@ -76,15 +78,26 @@ OBJ += $(UTV_CORE_DIR)/TunedFunc_x86x64.
+ 	$(UTV_CORE_DIR)/HuffmanCode_x64.o
+ endif
  
 +LTOBJ=$(OBJ:.o=.lo)
 +
@@ -50,9 +50,9 @@
 -static-lib: $(UTV_CORE_DIR)/libutvideo.a
 +lib: $(UTV_CORE_DIR)/libutvideo.la
  
- clean:
- 	@printf " RM\t$(UTV_CORE_DIR)/*.o\n";
-@@ -82,27 +95,27 @@
+ $(UTV_CORE_DIR)/TunedFunc_x86x64_sse2.o $(UTV_CORE_DIR)/TunedFunc_x86x64_sse2.lo: CXXFLAGS += -msse2
+ $(UTV_CORE_DIR)/TunedFunc_x86x64_ssse3.o $(UTV_CORE_DIR)/TunedFunc_x86x64_ssse3.lo: CXXFLAGS += -mssse3
+@@ -98,27 +111,27 @@ clean:
  	@rm -f $(UTV_CORE_DIR)/libutvideo.a
  
  install: all
